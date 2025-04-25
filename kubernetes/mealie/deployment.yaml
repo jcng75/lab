@@ -20,3 +20,5 @@ spec:
           name: mealie
           ports:
             - containerPort: 9000
+
+# To test the port, I ran the following - k port-forward pods/mealie-xxxxx-xxxxx 9000:9000
