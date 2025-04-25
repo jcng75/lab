@@ -3,6 +3,7 @@
 - By running `kubectl [command] --help | vim -`, you can most likely find the information before searching it up online
 - When generating template kubernetes yaml files (i.e deployments), this can be done by using the --dry-run command
 - For example: `kubectl create deployment test --dry-run=client -o yaml > deployment.yaml`
+- If you would like to get the yaml for an existing resource - `k get pod example -n [namespace] -o yaml > pod.yaml`
 
 - Kubernetes is considered the OS of the cloud.  Think of the nodes as a bunch of virtual machines who communicate with each other
 - A control plane is what manages the scheduling, api calls, key value store (etcd), and management of nodes
@@ -25,3 +26,21 @@
 - To investigate the node vm's CNI, we used rdctl (rancher-desktop ctl): `rdctl shell bash`
 - We then checked out /etc/cni/net.d/
 - We saw the file 10-flannel.conflist and by using `cat` we observed that flannel was running on our cluster
+- Services offer consistent addresses to access a set of pods
+    - Since pods are ephemeral, you should not expect a pod to be long lasting
+    - Pods are constantly changing and moved between nodes
+    - The system needs a way to keep track of these constantly changing IP addresses
+    - A service is a grouping of pods (i.e frontend nginx service)
+    - The traffic goes through the frontend service, not directly to the pods
+- To inspect the service - `kubectl get service`
+- Types of services:
+    - ClusterIP - Created by default when using `kubectl expose` command.  This IP won't change
+    - NodePort - Exposes a port on each node allowing direct access to the service through any node's IP address (try to avoid) 
+    - LoadBalancer - Creates a loadbalancer used to route traffic into the cluster
+- If using the ClusterIP type, we would initially get the external-ip is none as kubernetes doesn't know how to get the IP
+- Using Rancher Desktop, editing the service `kubectl edit service [service_name]` changing it to LoadBalancer get's an external-ip
+- Previously, we were doing port forwards with the following: `kubectl port-forward pods/[pod_name] [target_port]`
+- We can also do this port-forwarding to the exposed service instead: `kubectl port-forward services/[service_name] [target_port]` 
+- The problem with this now is that if we close the port forwarding, this will break the outside connections
+- To fix this, we can take the current ClusterIP service and configure it to be a LoadBalancer via YAML code
+    - After running the apply, we are able to access localhost:9000 succesfully
