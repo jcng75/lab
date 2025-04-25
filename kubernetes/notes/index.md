@@ -44,3 +44,13 @@
 - The problem with this now is that if we close the port forwarding, this will break the outside connections
 - To fix this, we can take the current ClusterIP service and configure it to be a LoadBalancer via YAML code
     - After running the apply, we are able to access localhost:9000 succesfully
+- Ingress exposes HTTP and HTTPS routes outside the cluster to services within the cluster (inbound traffic)
+- Ingress Features:
+    - SSL/TLS Termination
+    - External URLs (Fully Qualified Domain Names - FQDNs)
+    - Path based routing
+- When comparing the ingress vs the loadbalancer, both act as a way to direct traffic to a single source
+    - The difference is that the ingress can be used for multiple services (frontend, backend)
+    - The load balancer is intended to be only used for a single type of service (i.e frontend)
+- The ingress resource is implemented via the Ingress Controler (NGINX, Traefik, Cilium, AGIC - Application Ingress Controller)
+- Rancher Desktop uses Traefik
