@@ -6,6 +6,7 @@
 - When generating template kubernetes yaml files (i.e deployments), this can be done by using the --dry-run command
 - For example: `kubectl create deployment test --dry-run=client -o yaml > deployment.yaml`
 - If you would like to get the yaml for an existing resource - `k get pod example -n [namespace] -o yaml > pod.yaml`
+- If you would like to update the default namespace being used for commands - `kubectl config set-context --current --namespace=[namespace]`
 
 ## General
 - Kubernetes is considered the OS of the cloud.  Think of the nodes as a bunch of virtual machines who communicate with each other
@@ -74,3 +75,24 @@
 - Observe that we used emptyDir for this volume
     - This indicates that our volume is temporary or `Ephemeral`
     - Once the pod is deleted, the data stored inside the volume is cleared
+- There is a difference between persistent volumes and persistent volumes claims
+    - Persistent volumes is like a huge disk living inside your cluster
+    - Several teams run applications that require chunks of that disk space
+    - Persistent volume claims are responsible for "claiming" territory on the disk for the application
+- Persistent volumes can be provisioned [beforehand](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) or dynamically provisioned using Storage Classes
+- When working on this section, we chose to create the persistent volume claim before hand (see storage.yaml in mealie/)
+- When running the `kubectl get persistentvolumeclaims` command, observe that the created volume claim is pending
+    - This is because the persistent volume has not been created yet
+- Going back into the mealie deployments.yaml file, we needed to use the `persistentVolumeClaim` object that specified the claimName to be mealie-data
+- From there, the volume was mounted with the mountPath **/app/data**
+- Observe that once the apply has been run, after running the `kubectl get persistentvolumeclaims` command that the status is now bound
+- There are a lot of different storage classes - `kubectl get storageclasses.storage.k8s.io`
+    - The way it works is that in order to get the storage for the persistent volumes + volume claims, there is a configuration that is able to take storage from my local machine to put into the kubernetes cluster
+    - This was done through Rancher Desktop, but in the real world it would be either on prem or in the cloud
+    - On prem would most likely be handled through a hypervisor layer (VMware, vSphere) which each contain their own storage class
+    - In comparison, the cloud each has their own distinguishable storage classes (i.e AWS EBS/EFS)
+- ReadAccessMode is a parameter that can be added to your volume to specify the access conditions of a PersistentVolume
+    - ReadWriteOnce - RW access for one node 
+    - ReadOnlyOnce - R Access for one node
+    - ReadWriteMany - RW for many nodes
+    - ReadWriteOncePod - RW for only one pod

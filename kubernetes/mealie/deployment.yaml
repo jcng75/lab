@@ -18,7 +18,12 @@ spec:
       containers:
         - image: ghcr.io/mealie-recipes/mealie:v2.8.0 
           name: mealie
+          volumeMounts:
+            - mountPath: /app/data
+              name: mealie-data
           ports:
             - containerPort: 9000
-
-# To test the port, I ran the following - k port-forward pods/mealie-xxxxx-xxxxx 9000:9000
+      volumes:
+        - name: mealie-data
+          persistentVolumeClaim:
+            claimName: mealie-data
