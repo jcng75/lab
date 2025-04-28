@@ -14,6 +14,11 @@
     - Pods are NOT just the container.  Each pod is an operating envrionment that has the ability to run one or more containers.
 - Each node contains a kubelet that communicates with the control plane to provide health information on pod information
     - Additionally, they also contain a kube-proxy that allows them into maintain network rules on each node
+- When working with containers in YAML files, there is a distinguishable difference between `command` and `args`
+    - command acts as the entrypoint for the command to run (i.e ["/bin/sh", "-c"])
+    - args supplies arguments to the command being run
+    - The reason the "-c" in the example needs to be there is because it is not an argument, it is an option
+    - If "-c" was specific inside the args field, it may be interpretted as a file instead
 
 ## Networking
 - Each pod gets its own IP address
@@ -57,3 +62,15 @@
     - The load balancer is intended to be only used for a single type of service (i.e frontend)
 - The ingress resource is implemented via the Ingress Controler (NGINX, Traefik, Cilium, AGIC - Application Ingress Controller)
 - Rancher Desktop uses Traefik
+
+## Storage 
+- When working with storage, we first took a look at recreating a pod
+- When working with storage, note that volumes are stored in the POD not within the container
+    - Instead of directly having them inside the container, they are referenced by mounting them in the container
+- Using the `kubectl describe pod` command, we were able to see that the mealie pods contain volumes
+- To try to mimic this, the kubernetes documentation was references to include a volumes object inside `spec`
+- Additionally, containers who wanted to use the volume needed a `volumeMounts`
+    - Within volumeMounts, you need to specify the mountPath (i.e /scratch) and name of the volume you're referencing
+- Observe that we used emptyDir for this volume
+    - This indicates that our volume is temporary or `Ephemeral`
+    - Once the pod is deleted, the data stored inside the volume is cleared
