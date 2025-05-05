@@ -96,3 +96,28 @@
     - ReadOnlyOnce - R Access for one node
     - ReadWriteMany - RW for many nodes
     - ReadWriteOncePod - RW for only one pod
+
+## K9s
+- Another command to use is `k9s` - This is what can be used to explore clusters
+- You can navigate up and down against the pods using VIM navigation keys 
+- There is additional information on each pods if you press the `->` Arrow key
+- Pressing **0** shows all pods in the cluster
+- `Shift + A` - Sorts pods by age
+    - Can be useful to view recent deployments creating pods
+- `Shift + S` - Sorts by status
+    - Filter out all the pending/failed pods
+- Going to a specific pod and clicking `l` - Logs
+    - Turn on/off autoscaling `s`
+- You can use vim to search for information from pods
+    - Inside the homepage - typing `/mealie` searches for mealie pods
+    - `/` + Enter resets the search
+- Pressing `s` on a pod lets you shell into them
+- Kill a pod with `Ctrl + K`
+- Describe with `d`
+- View yaml with `y`
+- Enable port forwarding with `Shift + F`
+    - It will display a F to indicate that forwarding is active
+- Edit the service with `e`
+- To switch between resources, type `:[resource]`
+    - For example - `:pods`, `:svc`, `:deployments`
+- **NOTE: k9s should not be used as a crutch for everything - On the CKA Exam you may not be able to use**
