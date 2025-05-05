@@ -121,3 +121,24 @@
 - To switch between resources, type `:[resource]`
     - For example - `:pods`, `:svc`, `:deployments`
 - **NOTE: k9s should not be used as a crutch for everything - On the CKA Exam you may not be able to use**
+
+## Helm
+- Helm is a package manager that can be used to help manage k8s deployments
+- Helm does not run on your cluster
+    - It is a binary that runs on your computer
+    - You add repositories onto the binary to be used with the cluster
+    - When ready to use the repositories, the binary connects to the cluster and performs actions for you
+- GitOps tends to use Helm for the deployment of k8s resources
+- In this example, we are going to use helm to deploy [homarr](https://homarr.dev/docs/getting-started/installation/helm/)
+- `helm repo add [repo_name] [url]`
+    - Adds the repository to the list of repositories on your local system
+- `helm repo update`
+    - Update the list of repositories with the repository you just added 
+    - Similar to `git pull`
+- `helm install [name] [repo_name]/[resource]`
+    - Uses current namespace
+    - You can override values setting flags `--namespace [namespace] --create-namespace`
+    - `helm install homarr oben01/homarr --namespace homarr --create-namespace --values=values.yaml`
+- `helm ls -A` - Lists all helm charts
+- `helm uninstall -n [namespace] [chart]`
+- `helm upgrade -n [namespace] [chart] [repository] --values=values.yaml`
