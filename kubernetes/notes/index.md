@@ -20,6 +20,9 @@
     - args supplies arguments to the command being run
     - The reason the "-c" in the example needs to be there is because it is not an argument, it is an option
     - If "-c" was specific inside the args field, it may be interpretted as a file instead
+- To have two vim files open at once - `vim -O [newfile.txt] [dir/file.txt]`
+    - To switch between the files `Ctrl + W + J/H` - J Down H Up
+    - `Shift + V`, `Shift + G`, `Y` to get whole file
 
 ## Networking
 - Each pod gets its own IP address
