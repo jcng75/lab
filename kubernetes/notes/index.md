@@ -142,3 +142,35 @@
 - `helm ls -A` - Lists all helm charts
 - `helm uninstall -n [namespace] [chart]`
 - `helm upgrade -n [namespace] [chart] [repository] --values=values.yaml`
+- Port forwarding must be enabled
+    - We did so by using the command `Shift + F` on the grafana service (port 3000)
+- To get the credentials, we used the following command to get the default values:
+    - `helm show values prometheus-community/kube-prometheus-stack > prometheus-default-values.yaml`
+    - `cat prometheus-default-values.yaml`
+    - **NOTE**: Observe how there is over 5000 lines within this file
+- A strategy that can be implemented is start with the default values of the helm chart, and slowly update the default values with the desired values
+
+## Monitoring
+- The monitoring stack is responsible for gathering metrics and visualizing them
+- To set up prometheus, I used the following commands
+    - `helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`
+    - `helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace=monitoring --create-namespace`
+    - Breaking it down: `prometheus-stack` is the name of the release - This can be named whatever you want
+    - `prometheus-community/kube-prometheus-stack` is the name of the repository and the respective chart 
+- Verified running using
+    - `kubectl get pods -n monitoring`
+    - `kubectl get deployments -n monitoring`
+    - Alternatively - k9s
+- Changed the default password by creating a values.yaml file
+- Ran the following command:
+    - `helm upgrade -n monitoring prometheus-stack prometheus-community/kube-prometheus-stack --values=values.yaml`
+### Prometheus Stack Components
+- Prometheus is responsible for collecting and storing the metrics
+- Alertmanager is responsible for configuring alerts that can be used to trigger based on performance metrics
+    - Alerts can be sent via communications (i.e emails)
+- Grafana is used to visualize metrics by creating graphs and such 
+- Prom Operator - Simplifies the deployment for prometheus and configuration of monitoring
+- Kube state metrics listens to the kube API server and generates metrics about the state of objects
+    - Exposes these metrics with prometheus
+- Node exporter - Exports the metrics for each node that is running
+- 
