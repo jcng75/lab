@@ -1,0 +1,3 @@
+grafana:
+  # Note that this is only for example - This would normally not be stored in a plaintext yaml file
+  adminPassword: helloprometheus
