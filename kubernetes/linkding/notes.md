@@ -18,3 +18,9 @@ These were the list of steps that I took to get linkding to work on my local mac
     - Sign in with those credentials
 
 After following all these steps, we saw the result of a fully functioning linkding!
+
+Outside of the scope of the course, I thought that it would be nice to add a persistent storage to the linkding application.  To figure out the `mountPath`, I looked into the linkding [install-linkding.sh](https://github.com/sissbruecker/linkding/blob/master/install-linkding.sh#L23) script.  It indicated that by default, it set the mountPath to `/etc/linkding/data`.
+
+Once running the apply on the `storage.yaml` file followed by updating the deployment, the PersistentVolume claim was configured and mounted onto the linkding pod.
+
+I verified that the linkding storage was persistent by creating the super user with the command documented above and then removing the deployment with `kubectl delete deployments.app -n linkding linkding`.  From there, once I reran the `kubectl apply -f deployment.yaml` file, I was still able to log in with the user created!
