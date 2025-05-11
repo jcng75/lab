@@ -12,7 +12,7 @@
 - Kubernetes is considered the OS of the cloud.  Think of the nodes as a bunch of virtual machines who communicate with each other
 - A control plane is what manages the scheduling, api calls, key value store (etcd), and management of nodes
 - Pods are the smallest unit that exist inside within each node 
-    - Pods are NOT just the container.  Each pod is an operating envrionment that has the ability to run one or more containers.
+    - Pods are NOT just the container.  Each pod is an operating system envrionment that has the ability to run one or more containers.
 - Each node contains a kubelet that communicates with the control plane to provide health information on pod information
     - Additionally, they also contain a kube-proxy that allows them into maintain network rules on each node
 - When working with containers in YAML files, there is a distinguishable difference between `command` and `args`
