@@ -6,9 +6,6 @@ on:
 
 jobs:
   bump-version:
-    permissions:
-      contents: write
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -16,3 +13,5 @@ jobs:
 
       - name: Bump version and push tag
         uses: ./github-actions/tag-bump
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}

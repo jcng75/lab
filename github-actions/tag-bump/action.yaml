@@ -1,5 +1,9 @@
 name: Tag Bump Action
 description: Bump the version tag of the repository
+inputs:
+  token:
+    description: 'GitHub token to push the tag'
+    required: true
 
 runs:
   using: 'composite'
@@ -9,3 +13,5 @@ runs:
 
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@v1
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }} 
