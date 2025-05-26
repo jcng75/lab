@@ -6,6 +6,9 @@ on:
 
 jobs:
   bump-version:
+    permissions:
+      contents: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
