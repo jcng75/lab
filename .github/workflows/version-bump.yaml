@@ -1,0 +1,17 @@
+name: Bump Version Workflow
+description: This workflow bumps the version of the repository and pushes a new tag.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Bump version and push tag
+        uses: ./github-actions/tag-bump
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
