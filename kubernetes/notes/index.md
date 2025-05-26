@@ -11,7 +11,7 @@
 ## General
 - Kubernetes is considered the OS of the cloud.  Think of the nodes as a bunch of virtual machines who communicate with each other
 - A control plane is what manages the scheduling, api calls, key value store (etcd), and management of nodes
-- Pods are the smallest unit that exist inside within each node 
+- Pods are the smallest unit that exist inside within each node
     - Pods are NOT just the container.  Each pod is an operating system envrionment that has the ability to run one or more containers.
 - Each node contains a kubelet that communicates with the control plane to provide health information on pod information
     - Additionally, they also contain a kube-proxy that allows them into maintain network rules on each node
@@ -47,12 +47,12 @@
 - To inspect the service - `kubectl get service`
 - Types of services:
     - ClusterIP - Created by default when using `kubectl expose` command.  This IP won't change
-    - NodePort - Exposes a port on each node allowing direct access to the service through any node's IP address (try to avoid) 
+    - NodePort - Exposes a port on each node allowing direct access to the service through any node's IP address (try to avoid)
     - LoadBalancer - Creates a loadbalancer used to route traffic into the cluster
 - If using the ClusterIP type, we would initially get the external-ip is none as kubernetes doesn't know how to get the IP
 - Using Rancher Desktop, editing the service `kubectl edit service [service_name]` changing it to LoadBalancer get's an external-ip
 - Previously, we were doing port forwards with the following: `kubectl port-forward pods/[pod_name] [target_port]`
-- We can also do this port-forwarding to the exposed service instead: `kubectl port-forward services/[service_name] [target_port]` 
+- We can also do this port-forwarding to the exposed service instead: `kubectl port-forward services/[service_name] [target_port]`
 - The problem with this now is that if we close the port forwarding, this will break the outside connections
 - To fix this, we can take the current ClusterIP service and configure it to be a LoadBalancer via YAML code
     - After running the apply, we are able to access localhost:9000 succesfully
@@ -67,7 +67,7 @@
 - The ingress resource is implemented via the Ingress Controler (NGINX, Traefik, Cilium, AGIC - Application Ingress Controller)
 - Rancher Desktop uses Traefik
 
-## Storage 
+## Storage
 - When working with storage, we first took a look at recreating a pod
 - When working with storage, note that volumes are stored in the POD not within the container
     - Instead of directly having them inside the container, they are referenced by mounting them in the container
@@ -95,14 +95,14 @@
     - On prem would most likely be handled through a hypervisor layer (VMware, vSphere) which each contain their own storage class
     - In comparison, the cloud each has their own distinguishable storage classes (i.e AWS EBS/EFS)
 - ReadAccessMode is a parameter that can be added to your volume to specify the access conditions of a PersistentVolume
-    - ReadWriteOnce - RW access for one node 
+    - ReadWriteOnce - RW access for one node
     - ReadOnlyOnce - R Access for one node
     - ReadWriteMany - RW for many nodes
     - ReadWriteOncePod - RW for only one pod
 
 ## K9s
 - Another command to use is `k9s` - This is what can be used to explore clusters
-- You can navigate up and down against the pods using VIM navigation keys 
+- You can navigate up and down against the pods using VIM navigation keys
 - There is additional information on each pods if you press the `->` Arrow key
 - Pressing **0** shows all pods in the cluster
 - `Shift + A` - Sorts pods by age
@@ -136,7 +136,7 @@
 - `helm repo add [repo_name] [url]`
     - Adds the repository to the list of repositories on your local system
 - `helm repo update`
-    - Update the list of repositories with the repository you just added 
+    - Update the list of repositories with the repository you just added
     - Similar to `git pull`
 - `helm install [name] [repo_name]/[resource]`
     - Uses current namespace
@@ -159,7 +159,7 @@
     - `helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`
     - `helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace=monitoring --create-namespace`
     - Breaking it down: `prometheus-stack` is the name of the release - This can be named whatever you want
-    - `prometheus-community/kube-prometheus-stack` is the name of the repository and the respective chart 
+    - `prometheus-community/kube-prometheus-stack` is the name of the repository and the respective chart
 - Verified running using
     - `kubectl get pods -n monitoring`
     - `kubectl get deployments -n monitoring`
@@ -171,9 +171,9 @@
 - Prometheus is responsible for collecting and storing the metrics
 - Alertmanager is responsible for configuring alerts that can be used to trigger based on performance metrics
     - Alerts can be sent via communications (i.e emails)
-- Grafana is used to visualize metrics by creating graphs and such 
+- Grafana is used to visualize metrics by creating graphs and such
 - Prom Operator - Simplifies the deployment for prometheus and configuration of monitoring
 - Kube state metrics listens to the kube API server and generates metrics about the state of objects
     - Exposes these metrics with prometheus
 - Node exporter - Exports the metrics for each node that is running
-- 
+-
