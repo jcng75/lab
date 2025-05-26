@@ -4,6 +4,10 @@ description: This workflow bumps the version of the repository and pushes a new 
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write  # Required to push tags
+  id-token: write  # Required for GitHub Actions to authenticate
+
 jobs:
   bump-version:
     runs-on: ubuntu-latest
