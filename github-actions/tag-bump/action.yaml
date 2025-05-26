@@ -15,3 +15,12 @@ runs:
       uses: anothrNick/github-tag-action@v1
       env:
         GITHUB_TOKEN: ${{ inputs.token }} 
+    
+    - name: Create release
+      run: |
+        git fetch --tags
+        latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+        echo "Latest tag is: $latest_tag"
+        gh release create "$latest_tag" --title "Release $latest_tag" --notes "Release notes for $latest_tag" --generate-notes
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
