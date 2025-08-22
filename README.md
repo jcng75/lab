@@ -5,3 +5,5 @@ This repository was created with the intention of helping me learn and experimen
 ## Tool/Software Directories
 
 - Kubernetes
+- GitHub Actions
+- Scripting
