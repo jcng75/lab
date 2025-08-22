@@ -18,13 +18,28 @@ import subprocess
 def create_result_directory(folder_name):
     os.makedirs(folder_name, exist_ok=True)
     return
-    
+
+def get_folders(path):
+    items = os.listdir(path)
+    folders = []
+    for item in items:
+        test_path = os.path.join(path, item)
+        if os.path.isdir(test_path):
+            folders.append(item)
+    return folders
 
 def main():
-    p = Path(".")
+    # Initialize resulting file structure
     new_location = "test-data-modified/games"
     create_result_directory(new_location)
 
+    # Create new folders inside new location without _game
+    p = Path(".") / "test-data"
+    folders = get_folders(p)
+    strip_game = lambda s: s.split("_game")[0]
+    for folder in folders:
+        stripped = strip_game(folder)
+        create_result_directory(f"{new_location}/{stripped}")
 
 
 if __name__ == "__main__":
