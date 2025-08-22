@@ -15,21 +15,15 @@ from pathlib import Path
 import subprocess
 
 # Assume we are creating the result directory within current directory
-def create_result_directory(cwd, folder_name):
-    items = os.listdir(cwd)
-    for item in items:
-        item_path = os.path.join(cwd, item) 
-        if os.path.isdir(item_path) and item == folder_name:
-            print(f"{folder_name} already exists - Skipping Creation process")
-            return
-
-    os.mkdir(folder_name)
+def create_result_directory(folder_name):
+    os.makedirs(folder_name, exist_ok=True)
     return
     
 
 def main():
     p = Path(".")
-    create_result_directory(p, "test-data-modified")
+    new_location = "test-data-modified/games"
+    create_result_directory(new_location)
 
 
 
