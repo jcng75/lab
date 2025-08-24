@@ -28,15 +28,15 @@ def get_folders(path):
 
     for root, folders, files in os.walk(path):
         for folder in folders:
-            if "_game" in folder.lower():
+            if '_game' in folder.lower():
                 full_path = os.path.join(path, folder)
                 dirs.append(full_path)
-    
+
     return dirs
 
 def strip_folder_name(folder_path):
     value = os.path.basename(folder_path)
-    folder = value.replace("_game", "")
+    folder = value.replace('_game', '')
     return folder
 
 # Always overwrite the files if there were any changes to the test-data
@@ -54,10 +54,10 @@ def copy_files(src, dest):
 def update_data_dictionary(data_dict, folder_path):
     for root, folders, files in os.walk(folder_path):
         data_dict[root] = {
-            "number_of_folders": len(folders),
-            "folders": folders,
-            "number_of_files": len(files),
-            "files": files
+            'number_of_folders': len(folders),
+            'folders': folders,
+            'number_of_files': len(files),
+            'files': files
         }
 
 def display_json_results(data_dict):
@@ -71,7 +71,7 @@ def display_json_results(data_dict):
 
 def create_json(path, data):
     try:
-        with open(path / "data.json", "w") as f:
+        with open(path / 'data.json', 'w') as f:
             json.dump(data, f, indent=4)
         print(f"data.json has been created at {path}!")
     except Exception as e:
@@ -80,8 +80,8 @@ def create_json(path, data):
 def compile_code(go_path, src, dest):
     for root, folders, files in os.walk(go_path):
         for file in files:
-            file_name = file.replace(".go", "")
-            result = run(["go", "build", os.path.join(root, file)], stdout=PIPE, stdin=PIPE, universal_newlines=True)
+            file_name = file.replace('.go', '')
+            result = run(['go', 'build', os.path.join(root, file)], stdout=PIPE, stdin=PIPE, universal_newlines=True)
             print(f"Build Result: {result}")
 
             # Move the folder into the destination folder
@@ -89,28 +89,28 @@ def compile_code(go_path, src, dest):
 
 def main():
     # Initialize resulting file structure
-    new_location = "test-data-modified/games"
+    new_location = 'test-data-modified/games'
     create_result_directory(new_location)
 
     data_dictionary = {}
 
-    p = Path(".") / "test-data"
+    p = Path('.') / 'test-data'
     folders = get_folders(p)
     for folder in folders:
         # Create new folders inside new location without _game
         stripped = strip_folder_name(folder)
-        copy_files(Path(".") / folder, Path(new_location) / stripped)
-    
+        copy_files(Path('.') / folder, Path(new_location) / stripped)
+
         # Get information about test data modified
-        update_data_dictionary(data_dictionary, Path(".") / folder)
+        update_data_dictionary(data_dictionary, Path('.') / folder)
 
         # Compile go code
         compile_code(os.path.join(os.getcwd(), folder), os.getcwd(), os.path.join(os.getcwd(), new_location))
 
     display_json_results(data_dictionary)
     # Create JSON file
-    create_json(Path("./test-data-modified"), data_dictionary)
+    create_json(Path('./test-data-modified'), data_dictionary)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
