@@ -39,7 +39,16 @@ Copy the resulting IPAddress after running the commands.  Replace container_id w
 4. Add the following configurations:
 - Docker Host URI - `tcp://<IPAddress>:2375`
 - Enabled - ✅
--
+- Inside Docker Agent Template:
+    - Labels: `docker-agent-alpine`
+    - Enabled: ✅
+    - Name: `docker-agent-alpine`
+    - Docker Image: `jenkins/agent:latest-jdk17`
+    - Instance Capacity: `2`
+Click Save once done.
+5. Go back to your project you were working on and click `Configure`
+6. Click on the `Restrict where this project can be run` and enter `docker-agent-alpine` as the `Label Expression`
+7. Click save and run a build.
 
 ### NOTES:
 - Data is found at `/var/jenkins_home`
