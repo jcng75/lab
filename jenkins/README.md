@@ -1,6 +1,6 @@
 # jenkins
 
-Setup Steps Performed:
+### Setup Steps Performed:
 1. Copied the Dockerfile from the [documentation](https://www.jenkins.io/doc/book/installing/docker/).
 2. Ran the following commands:
 ```
@@ -23,11 +23,29 @@ To connect into the master:
 ```
 docker exec -it jenkins-blueocean bash
 ```
+### Configuring Docker Cloud Agent
+1. Install necessary plugins (Plugins -> Available plugins -> Search up Cloud Providers -> Check Docker -> Install)
+2. Create a New Cloud (Manage Jenkins -> Clouds -> New Cloud)
+- Cloud name - `docker`
+- Type - `Docker`
+3. Run the following set of commands:
+```
+docker run -d --restart=always -p 127.0.0.1:2376:2375 --network jenkins -v /var/run/docker.sock:/var/run/docker.sock alpine/socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
+```
+```
+docker inspect <container_id> | grep IPAddress
+```
+Copy the resulting IPAddress after running the commands.  Replace container_id with the created container (i.e 272add98c06899b0606476a51fe34b0f94b821f250488bfda65071a6ca7299da)
+4. Add the following configurations:
+- Docker Host URI - `tcp://<IPAddress>:2375`
+- Enabled - ✅
+-
 
-NOTES:
+### NOTES:
 - Data is found at `/var/jenkins_home`
 - Workspace is found at `/var/jenkins_home/workspace`
     - The workspace is essentially where all the created files are stored when running through builds
     - Enable the `Delete workspace before build starts` to have new workspaces created per build
 - Use the `BUILD_ID` environment variable to display the Build's run number
 - Use the `BUILD_URL` environment variable to provide a direct link to the Build
+- We can use Jenkins "Cloud" plugins to connect to remote machines
