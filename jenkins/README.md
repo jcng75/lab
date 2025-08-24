@@ -58,3 +58,6 @@ Click Save once done.
 - Use the `BUILD_ID` environment variable to display the Build's run number
 - Use the `BUILD_URL` environment variable to provide a direct link to the Build
 - We can use Jenkins "Cloud" plugins to connect to remote machines
+- Poll SCM is a Build Trigger than can help schedule when a build is run
+Syntax - MINUTE HOUR DOM MONTH DOW
+EX:      H/5    *     *   *    *
