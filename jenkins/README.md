@@ -50,6 +50,50 @@ Click Save once done.
 6. Click on the `Restrict where this project can be run` and enter `docker-agent-alpine` as the `Label Expression`
 7. Click save and run a build.
 
+### Configure Jenkins Pipeline
+Components of a Groovy Script
+- Wrapped in pipeline {} block
+- Add an agent {} block to indicate what node we will be using
+- Next block is stages {} which would then generate each stage {} of the process
+**NOTE:** If one stage fails, it does NOT continue with following stages
+Template:
+```
+pipeline {
+    agent {
+        node {
+            label 'jenkins-agent-goes-here'
+            }
+      }
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building.."
+                sh '''
+                echo "doing build stuff.."
+                '''
+            }
+        }
+        stage('Test') {
+            steps {
+                echo "Testing.."
+                sh '''
+                echo "doing test stuff..
+                '''
+            }
+        }
+        stage('Deliver') {
+            steps {
+                echo 'Deliver....'
+                sh '''
+                echo "doing delivery stuff.."
+                '''
+            }
+        }
+    }
+}
+```
+Using a Jenkins file:
+
 ### NOTES:
 - Data is found at `/var/jenkins_home`
 - Workspace is found at `/var/jenkins_home/workspace`
