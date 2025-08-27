@@ -92,7 +92,13 @@ pipeline {
     }
 }
 ```
-Using a Jenkins file:
+Using a Jenkinsfile:
+- Set the definition to `Pipeline script from SCM`
+- Set the SCM to `Git`
+- Set the Repository URL to the specific respoitory (i.e https://github.com/jcng75/lab)
+- Set the Branch Specifier to the branch you'd like to use (optional)
+- Set the script path to the Jenkins file (i.e `jenkins/Jenkinsfile`)
+- Save and run a Build to verify it is functioning as intended
 
 ### NOTES:
 - Data is found at `/var/jenkins_home`
