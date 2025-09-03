@@ -1,11 +1,11 @@
 from art import *
 
 def get_art(text='random'):
-    art(text)
+    art = art(text)
+    return art
 
 def main():
-    print('debugging')
-    get_art()
+    print(get_art())
 
 if __name__ == '__main__':
     main()
