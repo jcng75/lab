@@ -50,6 +50,39 @@ Click Save once done.
 6. Click on the `Restrict where this project can be run` and enter `docker-agent-alpine` as the `Label Expression`
 7. Click save and run a build.
 
+### Configuring Custom Docker Container
+These steps were very similar to the Cloud Agent, but additional steps had to be taken.
+1. Created the `python` directory and included the following files:
+- Dockerfile
+- python_art.py
+- requirements.txt
+2. Used the jenkins/agent as a base image in Dockerfile
+3. Updated the file to install python3 and pip and configured folder owners to be `jenkins` user
+4. Build the docker image and push to dockerhub:
+```
+docker build -t justincng75/myalpine-python:1.0.1 .
+docker push justincng75/myalpine-python:1.0.1
+```
+5. Add another Docker Agent Template inside the Jenkins Docker configuration
+6. Inside the Docker Agent Template:
+    - Labels: `docker-agent-python`
+    - Enabled: ✅
+    - Name: `docker-agent-python`
+    - Docker Image: `justincng75/myalpine-python:1.0.1`
+    - Instance Capacity: `2`
+7. Edit the python job:
+- Check the `Restrict where this project can be run`
+- Set the `Label Expression` to `docker-agent-python`
+- Updated the `Execute Shell` to:
+```
+python3 -m venv .venv
+source ./.venv/bin/activate
+pip install -r jenkins/python/requirements.txt
+python3 ./jenkins/python/python_art.py
+```
+8. Build the Job and verify it is functioning as intended
+
+
 ### Configure Jenkins Pipeline
 Components of a Groovy Script
 - Wrapped in pipeline {} block
