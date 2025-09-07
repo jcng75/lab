@@ -1,7 +1,7 @@
 name: File Linter
 description: Initiate a workflow dispatch to lint all the files in the repository.
 
-oin:
+on:
   workflow_dispatch:
     inputs:
       branch:
