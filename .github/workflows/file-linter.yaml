@@ -1,0 +1,35 @@
+name: File Linter
+description: Initiate a workflow dispatch to lint all the files in the repository.
+
+oin:
+  workflow_dispatch:
+    inputs:
+      branch:
+        descrption: Branch linter is run on
+        required: true
+        default: main
+        type: string
+
+jobs:
+  lint-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Run Linter on Files
+        uses: super-linter/super-linter@v8
+        env:
+          DEFAULT_BRANCH: ${{ github.event.inputs.branch }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Setup Git config
+      #   run: |
+      #     git config user.name "GitHub Actions Bot"
+      #     git config user.email "<>"
+
+      # - name: Commit and push changes to branch
+      #   run: |
+      #     git add -A
+      #     git commit -m "Automated Linting Changes initiated by ${{ github.event.actor }}"
+      #     git push
