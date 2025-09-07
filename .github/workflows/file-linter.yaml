@@ -22,14 +22,4 @@ jobs:
         env:
           DEFAULT_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Setup Git config
-      #   run: |
-      #     git config user.name "GitHub Actions Bot"
-      #     git config user.email "<>"
-
-      # - name: Commit and push changes to branch
-      #   run: |
-      #     git add -A
-      #     git commit -m "Automated Linting Changes initiated by ${{ github.event.actor }}"
-      #     git push
+          FILTER_REGEX_EXCLUDE: "./kubernetes/.*"
