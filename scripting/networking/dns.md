@@ -26,3 +26,8 @@ NOTE: This can be switched depending on the nsswitch configuration in `/etc/nssw
 ```
 hosts: files dns
 ```
+
+DNS Query tools
+nslookup - Query Internet name servers interactively.
+dig - DNS lookup utility with more detailed information.
+NOTE: Both tools are used for querying DNS servers, meaning if you specify a domain name in /etc/hosts, it will be ignored by these tools.
